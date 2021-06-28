@@ -16,7 +16,7 @@ _Pending_
 
 # Technology
 
-_Pending_:
+_Pending_
 
 # Authors
 
