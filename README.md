@@ -17,6 +17,11 @@ _Pending_
 # Technology
 
 _Pending_
+- Backend Web Framework:
+- Client-Side: React, TypeScript
+- DevOps: Git, Branch Protection
+- Project Management: Slack, Figma, Trello
+- Host: 
 
 # Authors
 
