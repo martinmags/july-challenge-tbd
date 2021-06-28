@@ -20,7 +20,7 @@ _Pending_
 - Backend Web Framework:
 - Client-Side: React, TypeScript
 - DevOps: Git workflow, Branch Protection
-- Project Management: Slack, Figma, Trello
+- Project Management: Slack, Figma, Trello, GitHub Wiki
 - Host: 
 
 # Authors
