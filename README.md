@@ -1,6 +1,6 @@
 # july-challenge-tbd
 
-_Pending_: one-liner about CRUD app
+A web app that acts as a directory to find employees based on their areas of expertise and team involvement.
 
 # Status:
 
@@ -16,12 +16,14 @@ _Pending_
 
 # Technology
 
-_Pending_
-- Backend Web Framework:
-- Client-Side: React, TypeScript
+- Frontend Framework: React
+- UI Framework: Material-UI
+- Backend Web Framework: Express
+- Language: TypeScript
+- Database: Mongodb
 - DevOps: Git workflow, Branch Protection
 - Project Management: Slack, Figma, Trello, GitHub Wiki
-- Host: 
+- Host: Heroku
 
 # Authors
 
