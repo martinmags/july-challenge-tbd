@@ -6,7 +6,7 @@ import theme from './theme';
 // Static Components
 import Header from './components/Header';
 // Pages
-import { HomePage, ProfilePage } from './pages';
+import { HomePage, ProfilePage, LoginPage } from './pages';
 
 function App() {
 	return (
@@ -16,6 +16,7 @@ function App() {
 				<Switch>
 					<Route exact path='/' component={HomePage} />
 					<Route exact path='/profile' component={ProfilePage} />
+					<Route exact path='/login' component={LoginPage} />
 				</Switch>
 			</Router>
 			<CssBaseline />
