@@ -22,7 +22,7 @@ _Pending_
 - Language: TypeScript
 - Database: Mongodb
 - DevOps: Git workflow, Branch Protection
-- Project Management: Slack, Figma, Trello, GitHub Wiki
+- Project Management: Slack, Figma, GitHub Projects, GitHub Wiki
 - Host: Heroku
 
 # Authors
