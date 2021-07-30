@@ -18,6 +18,7 @@ interface UserState {
 	signIn: () => void;
 	signOut: () => void;
 	user: User;
+	// updateUser: (payload: User) => Promise<User> | unknown;
 }
 
 // TODO: Specify and separate to another file; contains initialState in {}
@@ -35,6 +36,7 @@ export const UserContext = createContext<UserState>({
 	signIn: () => {},
 	signOut: () => {},
 	user: initialState,
+	// updateUser: () => {},
 });
 
 const clientId: string = process.env.REACT_APP_OAUTH_CLIENT_ID || '';
@@ -68,6 +70,7 @@ const UserProvider = ({ children }: ChildrenType) => {
 		onSuccess: handleLoginSuccess,
 		onFailure: handleLoginFailure,
 		clientId,
+		uxMode: 'redirect',
 		isSignedIn: true,
 		accessType: 'offline',
 		cookiePolicy: 'single_host_origin',
@@ -101,10 +104,17 @@ const UserProvider = ({ children }: ChildrenType) => {
 		cookiePolicy: 'single_host_origin',
 	});
 
+	/***************
+	 * Update User *
+	 ***************/
+	// const updateUser = async (payload: User): Promise<User> => {
+	// 	const results = await put('/user');
+	// };
 	const authContextValue = {
 		signIn,
 		signOut,
 		user,
+		// updateUser,
 	};
 	return <UserContext.Provider value={authContextValue}>{children}</UserContext.Provider>;
 };
