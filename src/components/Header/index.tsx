@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
-import { useGoogleLogin } from 'react-google-login';
 import Sidebar from '../Sidebar';
+// import { useUserAuth } from '../../context/UserContext';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -19,26 +19,22 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-const clientId: string = process.env.REACT_APP_OAUTH_CLIENT_ID || '';
-
-const Header = () => {
+const Header = ({ user, signOut, signIn }: any) => {
 	const classes = useStyles();
 
-	const onSuccess = (res: any) => {
-		console.log('[Login Success] currentUser:', res.profileObj);
-	};
+	useEffect(() => {
+		console.log(user);
+	}, [user]);
 
-	const onFailure = (res: any) => {
-		console.log('[Login Failure] currentUser:', res);
-	};
-
-	const { signIn } = useGoogleLogin({
-		onSuccess,
-		onFailure,
-		clientId,
-		isSignedIn: true,
-		accessType: 'offline',
-	});
+	const renderLoginLogout = user.loggedIn ? (
+		<Button component='button' onClick={signOut} color='inherit'>
+			Logout
+		</Button>
+	) : (
+		<Button component='button' onClick={signIn} color='inherit'>
+			Login
+		</Button>
+	);
 
 	return (
 		<div className={classes.root}>
@@ -47,10 +43,7 @@ const Header = () => {
 					<Typography variant='h6' className={classes.title} noWrap>
 						Cloroxory
 					</Typography>
-					<Button component='button' onClick={signIn} color='inherit'>
-						Login
-					</Button>
-					{/* Accessible if logged-in */}
+					{renderLoginLogout}
 					<Button color='inherit'>Profile</Button>
 				</Toolbar>
 			</AppBar>
