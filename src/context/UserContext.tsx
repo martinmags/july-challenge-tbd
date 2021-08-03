@@ -55,13 +55,11 @@ const UserProvider = ({ children }: ChildrenType) => {
 
 		// Redirect to Profile Page to enter {title, department, skills}
 		setUser({
+			...user,
 			firstName: givenName,
 			lastName: familyName,
 			email,
-			title: '',
 			loggedIn: true,
-			department: '',
-			skills: [],
 		});
 	};
 	const handleLoginFailure = (res: any) => {
@@ -84,15 +82,7 @@ const UserProvider = ({ children }: ChildrenType) => {
 	const handleLogoutSuccess = () => {
 		console.log('[Logout Success]');
 		// Redirect to Profile Page to enter {title, department, skills}
-		setUser({
-			firstName: '',
-			lastName: '',
-			email: '',
-			title: '',
-			loggedIn: false,
-			department: '',
-			skills: [],
-		});
+		setUser(initialState);
 	};
 	const handleLogoutFailure = () => {
 		console.log('[Logout Failure]');
@@ -111,7 +101,7 @@ const UserProvider = ({ children }: ChildrenType) => {
 	 */
 	const updateUser = (payload: string) => {
 		// const results = await put('/user');		
-		// Determine if payload is Title or Department		
+		// Determine payload contents; maybe refactor to use switch statement	
 		if (titles.includes(payload)){
 			setUser({
 				...user,
