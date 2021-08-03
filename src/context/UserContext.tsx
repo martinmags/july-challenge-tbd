@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useGoogleLogin, useGoogleLogout } from 'react-google-login';
+import {titles, departments, skills} from '../tempData';
 
 interface ChildrenType {
 	children: React.ReactNode;
@@ -12,13 +13,13 @@ interface User {
 	loggedIn: boolean;
 	title: string;
 	department: string;
-	skills: string[];
+	skills: String[];
 }
 interface UserState {
 	signIn: () => void;
 	signOut: () => void;
 	user: User;
-	// updateUser: (payload: User) => Promise<User> | unknown;
+	updateUser: (payload: string) => User | unknown;
 }
 
 // TODO: Specify and separate to another file; contains initialState in {}
@@ -29,14 +30,14 @@ const initialState = {
 	loggedIn: false,
 	title: '',
 	department: '',
-	skills: [],
+	skills: [''],
 };
 
 export const UserContext = createContext<UserState>({
 	signIn: () => {},
 	signOut: () => {},
 	user: initialState,
-	// updateUser: () => {},
+	updateUser: () => {},
 });
 
 const clientId: string = process.env.REACT_APP_OAUTH_CLIENT_ID || '';
@@ -104,17 +105,44 @@ const UserProvider = ({ children }: ChildrenType) => {
 		cookiePolicy: 'single_host_origin',
 	});
 
-	/***************
-	 * Update User *
-	 ***************/
-	// const updateUser = async (payload: User): Promise<User> => {
-	// 	const results = await put('/user');
-	// };
+	/*
+	 * Update User 
+	 * Temporary, but need to change to type Promise<User> when making updates to User 
+	 */
+	const updateUser = (payload: string) => {
+		// const results = await put('/user');		
+		// Determine if payload is Title or Department		
+		if (titles.includes(payload)){
+			setUser({
+				...user,
+				title: payload
+			})
+		} else if (departments.includes(payload)) {
+			setUser({
+				...user,
+				department: payload
+			})
+		} else if (skills.includes(payload)) {
+			// Create a new user with updated skills
+			let newSkills = [...user.skills, payload]
+			if (user.skills.includes(payload)){
+				newSkills = newSkills.filter(skill => skill !== payload);
+			}
+			// Update user with new skills
+			setUser({
+				...user,
+				skills: newSkills
+			})
+		}
+		
+		return user
+	};
+
 	const authContextValue = {
 		signIn,
 		signOut,
 		user,
-		// updateUser,
+		updateUser,
 	};
 	return <UserContext.Provider value={authContextValue}>{children}</UserContext.Provider>;
 };

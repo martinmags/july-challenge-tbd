@@ -1,18 +1,26 @@
 import {
-	Avatar,
-	Card,
-	CardContent,
-	CardHeader,
 	createStyles,
 	FormControl,
+	InputLabel,
 	makeStyles,
+	MenuItem,
+	Select,
 	Theme,
 	Toolbar,
-	Typography,
+	Card,
+	CardHeader,
+	Avatar,
+	CardContent,
+	FormLabel,
+	FormGroup,
+	FormControlLabel,
+	Checkbox,
+
 } from '@material-ui/core';
 import React from 'react';
 import { useUserAuth } from '../context/UserContext';
 import { red } from '@material-ui/core/colors';
+import {titles, departments, skills} from '../tempData';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -24,31 +32,39 @@ const useStyles = makeStyles((theme: Theme) =>
 			padding: theme.spacing(3),
 		},
 		cardRoot: {
-			maxWidth: 345,
+			maxWidth: 450,
 		},
 		avatar: {
 			backgroundColor: red[500],
 		},
 		formControl: {
 			margin: theme.spacing(1),
+			minWidth: 120,
 		},
 		selectEmpty: {
 			margintop: theme.spacing(2),
 		},
+		paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
 	})
 );
 
-interface Props {}
 const ProfilePage = () => {
 	const classes = useStyles();
-	const { user /*, updateUser */ } = useUserAuth();
+	const { user, updateUser } = useUserAuth();
 
-	
-	console.log(user);
+	const handleChange = (event: any) => {
+    updateUser(event.target.value);
+  };
+
+
 	return (
 		<main className={classes.content}>
 			<Toolbar />
-			<Typography variant='h3'>Profile</Typography>
+
 			<Card className={classes.cardRoot}>
 				<CardHeader
 					avatar={
@@ -57,26 +73,62 @@ const ProfilePage = () => {
 						</Avatar>
 					}
 					title={`${user.firstName} ${user.lastName}`}
-					subheader={user.title}
+					subheader={user.email}
 				/>
-				{/* TODO: Continue creating a controller form here to take
-						user input on Department, skills, and role
-				*/}
+
+				{/* TODO: updateUser to connect to update user data in mongodb */}
 				<CardContent>
-					<FormControl className={classes.formControl}>
-						<InputLabel id='demo-simple-select-label'>Department</InputLabel>
-d
-					<Typography variant='body2' color='textSecondary' component='p'>
-						Department: {user.department}
-					</Typography>
-					<Typography variant='body2' color='textSecondary' component='p'>
-						Email: {user.email}
-					</Typography>
-					<Typography variant='body2' color='textSecondary' component='p'>
-						Skills: {user.skills}
-					</Typography>
+					{/* Title */}
+					<FormControl fullWidth className={classes.formControl}>
+						<InputLabel id="user-title-label">Title</InputLabel>
+						<Select
+							labelId="user-title-label"
+							id="user-title"
+							value={user.title}
+							onChange={handleChange}
+							defaultValue=""
+						>
+							<MenuItem value="">None</MenuItem>
+							{titles.map((title) => (
+								<MenuItem key={title} value={title}>{title}</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+
+					{/* Department */}
+					<FormControl fullWidth className={classes.formControl}>
+						<InputLabel id="user-department-label">Department</InputLabel>
+						<Select
+							labelId="user-department-label"
+							id="user-department"
+							value={user.department}
+							onChange={handleChange}
+							defaultValue=""
+						>
+							<MenuItem value="">None</MenuItem>
+							{departments.map((department) => (
+								<MenuItem key={department} value={department}>{department}</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+
+					{/* Skills */}
+					<FormControl component="fieldset" className={classes.formControl}>
+						<FormLabel component="legend">Skills</FormLabel>
+						<FormGroup>
+						{skills.map((skill) => (
+							<FormControlLabel 
+								key={skill}
+								control={<Checkbox checked={user.skills.includes(skill)} onChange={handleChange} value={skill} />}
+								label={skill}
+							/>
+						))}
+						</FormGroup>
+					</FormControl>
 				</CardContent>
 			</Card>
+
+
 		</main>
 	);
 };
