@@ -69,11 +69,10 @@ const ProfilePage = () => {
 				<CardHeader
 					avatar={
 						<Avatar aria-label='name' className={classes.avatar}>
-							{user.firstName[0]}
+							{ user ? user.first_name[0] : null }
 						</Avatar>
 					}
-					title={`${user.firstName} ${user.lastName}`}
-					subheader={user.email}
+					title={user ? `${user.first_name} ${user.last_name}` : null }
 				/>
 
 				{/* TODO: updateUser to connect to update user data in mongodb */}
@@ -84,7 +83,7 @@ const ProfilePage = () => {
 						<Select
 							labelId="user-title-label"
 							id="user-title"
-							value={user.title}
+							value={ user ? user.title : null }
 							onChange={handleChange}
 							defaultValue=""
 						>
@@ -101,7 +100,7 @@ const ProfilePage = () => {
 						<Select
 							labelId="user-department-label"
 							id="user-department"
-							value={user.department}
+							value={ user ? user.dept : null }
 							onChange={handleChange}
 							defaultValue=""
 						>
@@ -119,7 +118,7 @@ const ProfilePage = () => {
 						{skills.map((skill) => (
 							<FormControlLabel 
 								key={skill}
-								control={<Checkbox checked={user.skills.includes(skill)} onChange={handleChange} value={skill} />}
+								control={<Checkbox checked={user ? user.skills.includes(skill) : false } onChange={handleChange} value={skill} />}
 								label={skill}
 							/>
 						))}

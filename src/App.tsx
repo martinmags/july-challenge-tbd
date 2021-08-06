@@ -1,6 +1,6 @@
 import React from 'react';
 import { CssBaseline } from '@material-ui/core';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 
@@ -19,20 +19,23 @@ const useStyles = makeStyles(() => ({
 
 function App() {
 	const classes = useStyles();
-	const { signIn, signOut, user } = useUserAuth();
+	const { user } = useUserAuth();
 
 	return (
 		<div className={classes.root}>
 			<ThemeProvider theme={theme}>
 				<Router>
-					<Header user={user} signIn={signIn} signOut={signOut} />
+					<Header />
 					<Switch>
 						{/* PUBLIC: Search the directory by filters */}
 						<Route exact path='/' component={HomePage} />
 						{/* PUBLIC: Login with your credentials */}
 						<Route exact path='/login' component={LoginPage} />
 						{/* PROTECTED: View and Edit your profile information */}
-						<Route exact path='/profile' component={ProfilePage} />
+						{ 
+							user ? 
+							<Route exact path='/profile' component={ProfilePage} /> : <Redirect to='/' />
+						}
 					</Switch>
 				</Router>
 				<CssBaseline />
