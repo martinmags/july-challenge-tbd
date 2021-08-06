@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Button, Link } from '@material-ui/core';
 import Sidebar from '../Sidebar';
+import { useUserAuth } from '../../context/UserContext';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -20,17 +22,41 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Header = () => {
 	const classes = useStyles();
+	const { signIn, signOut, user } = useUserAuth();
+
+	useEffect(() => {
+		console.log(user);
+	}, [user]);
+
+	const renderLoginLogout = user?.loggedIn ? (
+		<Button component='button' onClick={signOut} color='inherit'>
+			Logout
+		</Button>
+	) : (
+		<Button component='button' onClick={signIn} color='inherit'>
+			Login
+		</Button>
+	);
+
 
 	return (
 		<div className={classes.root}>
 			<AppBar position='fixed' className={classes.appBar}>
 				<Toolbar>
 					<Typography variant='h6' className={classes.title} noWrap>
-						Cloroxory
+						<Link href="/" color="inherit" underline="none">
+							Cloroxory
+						</Link>
 					</Typography>
-					<Button color='inherit'>Login</Button>
-					{/* Accessible if logged-in */}
-					{/* <Button color='inherit'>Profile</Button> */}
+					{user ?
+						<Button color='inherit'>
+							<Link href="/profile" color="inherit" underline="none">
+								Profile
+							</Link> 
+						</Button>: <Redirect to='/' />
+					}
+					{renderLoginLogout}
+
 				</Toolbar>
 			</AppBar>
 			<Sidebar />
